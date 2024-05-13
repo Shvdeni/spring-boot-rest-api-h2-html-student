@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Form FETCH Student</h1>
+<!--<form action="#" th:action="@{/student}" th:object="${student}" method="post">-->
+<!--    <p>Name: <input type="text" th:field="*{name}" /></p>-->
+<!--    <p>Age: <input type="text" th:field="*{age}" /></p>-->
+<!--    <p>Email: <input type="text" th:field="*{email}" /></p>-->
+<!--    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>-->
+<!--</form>-->
+
+<p>ID: <input type="text" id="id" /></p>
+<p> <button onclick="sendJSON()">Submit</button>
+<p class="result" style="color:green"></p>
+<p id="demo"></p>
+
+<!-- Include the JavaScript file -->
+<script>
+
+    function sendJSON(){
+
+        let result = document.querySelector('.result');
+        let id = document.querySelector('#id');
+
+        const dbParam = JSON.stringify({table:"customers",limit:20});
+        const xmlhttp = new XMLHttpRequest();
+        xmlhttp.onload = function() {
+            const myObj = JSON.parse(this.responseText);
+            let text = "<table border='1' style='width:70%'>"
+            text += "<tr><td>" + myObj.id + "</td><td>" + myObj.name + "</td><td>" + myObj.age + "</td><td>" + myObj.email + "</td></tr>";
+            text += "</table>"
+            document.getElementById("demo").innerHTML = text;
+        }
+        xmlhttp.open("GET", "/student/" + id.value);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send("x=" + dbParam);
+
+    }
+
+</script>
+
+</body>
+</html>
